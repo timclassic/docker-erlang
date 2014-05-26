@@ -1,0 +1,41 @@
+* Docker build of Erlang
+  This repository builds a Docker container hosting a full build of
+  Erlang.  It is built from source downloaded directly from Ericsson,
+  not from an existing distribution package.
+
+** Run It
+   Assuming you have Docker installed, you may try out this image
+   immediately:
+   #+BEGIN_SRC sh
+     docker run -it --rm stoo/erlang erl
+   #+END_SRC
+
+** Build It
+   Run the following to create the images:
+   #+BEGIN_SRC sh
+     make
+   #+END_SRC
+
+   If you want the new image to be tagged as "latest", run make as
+   follows:
+   #+BEGIN_SRC sh
+     make latest
+   #+END_SRC
+
+** Dependencies
+   - GNU Make
+   - Docker
+
+** Methodology
+   The image is based on Debian Wheezy.  The Makefile actually creates
+   two images.  The first is a build image, called "erlang_build",
+   used to run the actual compile job.  The second is just called
+   "erlang" and is meant for deployment, as it leaves out all of the
+   development packages needed for the build itself.
+
+** Build Details
+   The erlang_build image supports a full build of Erlang, including
+   crypto and wx support.  The erlang image includes everything but wx
+   to save space, but it would be trivial to create a derived image
+   that includes Wheezy's wx packages.  In fact, the package name is
+   commented out in image/Dockerfile.
