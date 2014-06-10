@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM stoo/baseimage:0.9.9
 
 ENV DEBIAN_FRONTEND noninteractive
 

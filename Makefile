@@ -1,20 +1,23 @@
+VSN = 17.0-2
+IMG_BUILD = stoo/erlang_build:$(VSN)
+IMG = stoo/erlang:$(VSN)
+
+PREFIX = erlang-17.0
+
 .PHONY: all build image clean
 
 all: image
 
-build: image/erlang-17.0.tar.gz
+build: image/$(PREFIX).tar.gz
 
-image/erlang-17.0.tar.gz:
-	docker build -t "stoo/erlang_build:17.0-1" build
-	docker run -i --rm "stoo/erlang_build:17.0-1" \
-	    tar zcf - -C / opt/erlang-17.0 >erlang-17.0.tar.gz.tmp
-	mv erlang-17.0.tar.gz.tmp image/erlang-17.0.tar.gz
+image/$(PREFIX).tar.gz:
+	docker build -t "$(IMG_BUILD)" build
+	docker run -i --rm "$(IMG_BUILD)" \
+	    tar zcf - -C / opt/$(PREFIX) >$(PREFIX).tar.gz.tmp
+	mv $(PREFIX).tar.gz.tmp image/$(PREFIX).tar.gz
 
-image: image/erlang-17.0.tar.gz
-	docker build -t "stoo/erlang:17.0-1" image
-
-latest: image
-	docker build -t "stoo/erlang:latest" image
+image: image/$(PREFIX).tar.gz
+	docker build -t "$(IMG)" image
 
 clean:
-	rm -f image/erlang-17.0.tar.gz
+	rm -f image/$(PREFIX).tar.gz
