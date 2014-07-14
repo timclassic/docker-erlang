@@ -1,8 +1,8 @@
-VSN = 17.0-2
+VSN = 17.1-1
 IMG_BUILD = stoo/erlang_build:$(VSN)
 IMG = stoo/erlang:$(VSN)
 
-PREFIX = erlang-17.0
+PREFIX = erlang-17.1
 
 .PHONY: all build image clean
 

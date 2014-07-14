@@ -1,4 +1,4 @@
-FROM stoo/baseimage:0.9.9
+FROM stoo/baseimage:0.9.12
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -10,9 +10,9 @@ RUN apt-get install -y curl
 # Download the Erlang/OTP source
 RUN mkdir /buildroot
 WORKDIR /buildroot
-RUN curl -O http://www.erlang.org/download/otp_src_17.0.tar.gz
-RUN curl -O http://www.erlang.org/download/otp_doc_man_17.0.tar.gz
-RUN tar zxf otp_src_17.0.tar.gz
+RUN curl -O http://www.erlang.org/download/otp_src_17.1.tar.gz
+RUN curl -O http://www.erlang.org/download/otp_doc_man_17.1.tar.gz
+RUN tar zxf otp_src_17.1.tar.gz
 
 # Install additional packages
 RUN apt-get install -y less
@@ -30,15 +30,15 @@ RUN apt-get install -y unixodbc-dev
 RUN apt-get install -y autoconf
 
 # Build
-WORKDIR otp_src_17.0
+WORKDIR otp_src_17.1
 RUN ./configure
 RUN make -j6
 
 # Install
-RUN make RELEASE_ROOT=/opt/erlang-17.0 release
-WORKDIR /opt/erlang-17.0
-RUN ./Install -minimal /opt/erlang-17.0
-RUN tar zxf /buildroot/otp_doc_man_17.0.tar.gz
+RUN make RELEASE_ROOT=/opt/erlang-17.1 release
+WORKDIR /opt/erlang-17.1
+RUN ./Install -minimal /opt/erlang-17.1
+RUN tar zxf /buildroot/otp_doc_man_17.1.tar.gz
 
 # Reset working directory
 WORKDIR /
